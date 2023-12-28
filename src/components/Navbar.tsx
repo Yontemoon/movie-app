@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import filmIcon from "../images/filmIcon.svg"
 import searchIcon from "../images/search.svg"
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import "../styles/navbar.css"
 import { useNavigate } from "react-router-dom";
 
@@ -9,10 +9,9 @@ const Navbar = () => {
     const navigate = useNavigate()
     const [searchedQuery, setSearchQuery] = useState("")
 
-    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const handleSearch = (event: FormEvent<HTMLFormElement>): void =>  {
         event.preventDefault();
         if(searchedQuery === "") return
-        console.log(searchedQuery)
         navigate(`/query/${searchedQuery}`)
 
 
@@ -31,8 +30,8 @@ const Navbar = () => {
                     value={searchedQuery}
                     onChange={({target}) => setSearchQuery(target.value)}
                 />
-                <button type="submit">
-                    <img src={searchIcon}/>
+                <button type="submit" className="search-icon-button">
+                    <img src={searchIcon} className="search-icon"/>
                 </button>
             </form>
         </div>

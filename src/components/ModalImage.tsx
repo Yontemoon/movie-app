@@ -5,6 +5,7 @@ import {MovieVideoType} from "../models/MovieVideos.types";
 import "../styles/ModalImage.css"
 import { ImageType } from "../models/MovieImages.types";
 import VideoPlayer from "./TrailerVideo";
+import closeButton from "../images/x.svg";
 
 
 type ModelImage = {
@@ -27,16 +28,16 @@ const ModalImage: React.FC<ModelImage> = ({setOpenModel, openModel, poster}) => 
         >
             <Dialog className="dialog" open={openModel} onClose={() => {}}>
                 <div className="backdrop"/>
-                    <div>
-                        <div className="container">
-                            <Dialog.Panel className="image-section">
-                                {isImageType (poster) ? <img src={`https://image.tmdb.org/t/p/original${poster.file_path}`} alt=""/> : <VideoPlayer video={poster}/>}
-                            </Dialog.Panel>
-                            <div>
-                                {isImageType (poster) && <button>Download</button>}
-                                <button onClick={() => setOpenModel(false)}>Close</button>
-                            </div>
-                        </div>
+                    <div className="image-container">
+                        <img 
+                            className="close-button" 
+                            src={closeButton} 
+                            alt="close"
+                            onClick={() => setOpenModel(false)}
+                        />
+                        <Dialog.Panel className="image-section">
+                            {isImageType (poster) ? <img src={`https://image.tmdb.org/t/p/original${poster.file_path}`} alt="poster"/> : <VideoPlayer video={poster}/>}
+                        </Dialog.Panel>
                     </div>
             </Dialog>
         </Transition>

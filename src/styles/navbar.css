@@ -13,16 +13,30 @@
 
 #navbar input {
     border-radius: 10px;
-    min-width: 200px;
-    padding: 5px;
+    min-width: 250px;
+    height: 20px;
+    padding: 15px;
     margin-right: 5px;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+    
 }
 
 #navbar button {
-    background-color: var(--blue);
+    /* background-color: var(--blue); */
     transition: 0.25s;
+    box-sizing: border-box;
+    
 }
 
 #navbar button:hover {
     scale: 1.2;
+    border-radius: 0px;
+    border: solid 1px transparent;
+
+}
+
+#navbar .search-icon-button {
+    background-color:transparent;
 }
