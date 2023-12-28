@@ -1,0 +1,58 @@
+#movie-list {
+    display: flex;
+    flex-wrap: wrap;
+    /* align-self: center; */
+    align-items: left;
+    justify-content:space-between;
+}
+
+#movie-list .movie-credit {
+    /* margin: 10px; */
+}
+
+#movie-list .movie-image {
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); 
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+    border-radius: 5px;
+    /* min-height: 40px; */
+    height: 400px;
+    width: 266.674px;
+    object-fit: cover;
+
+}
+
+#movie-list .movie-image:hover {
+    transform: scale(1.05);
+}
+
+#movie-list .movie-info-row {
+    display: flex;
+    justify-content: space-around;
+}
+
+#movie-list .movie-title-row {
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 266px;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+/* #movie-list .movie-title-row:hover {
+
+} */
+
+.movie-rating-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rating-star {
+    scale: 0.7
+}

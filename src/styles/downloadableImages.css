@@ -1,0 +1,17 @@
+
+
+#downloabableImages .section {
+position: relative;
+}
+
+
+#downloabableImages .expand-button {
+    position: absolute;
+    z-index: 1001;
+    top: 8px;
+    right: 16px;
+}
+
+#downloabableImages .expand-button:hover {
+    cursor: pointer;
+}

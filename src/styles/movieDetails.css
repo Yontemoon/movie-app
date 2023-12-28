@@ -1,0 +1,110 @@
+#movieDetailPage .movie-background-container {
+    box-shadow: 0 0 50px 50px white inset;
+}
+
+.movie-info-container {
+    display: flex;
+    z-index: 3;
+}
+
+#movieDetailsPage .movie-background {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    width:100vw;
+    height: 50vh;
+    opacity: 0.7;
+
+    object-fit: cover;
+    object-position: top;
+    /* z-index: -1; */
+    -webkit-mask-image: linear-gradient(black, transparent);
+    mask-image: linear-gradient(black, transparent)
+}
+
+#movieDetailsPage .starting-position {
+    height: 25vh
+}
+.movie-info-left {
+    position: relative;
+    z-index: 2;
+}
+
+.movie-info-title {
+    z-index: 2;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.movie-info-release_date {
+    z-index: 2;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.movie-info-tagline {
+    z-index: 2;
+}
+
+.movie-info-right {
+    margin-left: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+#movieDetailsPage .castList p {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-left: 0px;
+}
+
+.image {
+    width: 95%;
+    border: solid 1px white;
+    object-fit:cover;
+    height: auto;
+}
+
+#movieDetailsPage .movie-info-left .movie-poster {
+    width: 25em;
+    height: auto;
+    border-radius: 25px;
+}
+
+.movie-video-container {
+    position: relative;
+}
+
+.movie-video-container .play-button {
+    /* background-color: transparent; */
+    /* scale: 0.3; */
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+.movie-video-container .play-button:hover {
+    cursor: pointer;
+}
+
+.image:hover {
+    border: solid 1px rgb(61, 132, 173);
+}
+
+#movieDetailsPage .actor-avatar {
+    height:128px;
+    width: 128px;
+    object-fit: cover;
+    border-radius: 25px;
+
+}
+
+.actor-avatar-container {
+    display: flex;
+    justify-content: center;
+}
+
+
+
+

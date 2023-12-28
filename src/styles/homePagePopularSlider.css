@@ -1,0 +1,47 @@
+.image-container {
+    position: relative;
+    border-radius: 25px;
+    cursor:default;
+}
+
+.image-container img {
+  border-radius: 25px;
+}
+
+.popular-image {
+  height: 400px;
+  width: 100%;
+  object-fit: cover;
+}
+  
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    pointer-events: none; 
+    border-radius: 25px;
+}
+
+.homePagePopularSlider .movie-info{
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  bottom: 8px;
+  left: 16px;
+  padding: 30px;
+}
+
+.homePagePopularSlider .movie-title {
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+/* .homePagePopularSlider button {
+  background-color: var(--light-blue);
+} */

@@ -1,0 +1,28 @@
+#navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+#navbar .search{
+    display: flex;
+    align-items: center;
+}
+
+#navbar input {
+    border-radius: 10px;
+    min-width: 200px;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+#navbar button {
+    background-color: var(--blue);
+    transition: 0.25s;
+}
+
+#navbar button:hover {
+    scale: 1.2;
+}

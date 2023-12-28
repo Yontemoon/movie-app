@@ -1,0 +1,65 @@
+.homePageSlider {
+    padding: 30px;
+    border-radius: 25px;
+    /* margin-top: 10px;
+    margin-bottom: 10px; */
+    color: white;
+    background-color: var(--light-blue);
+
+}
+
+.homePageSlider-child .movie-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 400px;
+    min-height: 400px;
+}
+
+.homePageSlider .movie-title {
+    white-space: nowrap;    
+    overflow: hidden;         
+    text-overflow: ellipsis;  
+    max-width: 190px;  
+    font-weight: bold;
+    z-index: auto;
+    position: relative
+}
+
+.homePageSlider .movie-poster{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    border: solid 1px white;
+    height: 284px;
+    /* min-width: 100%; */
+    object-fit: cover;
+}
+
+
+.homePageSlider-child .movie-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 180px; 
+    height:20px;
+    background-color: inherit;
+    z-index: auto
+}
+
+.homePageSlider .movie-release-year {
+    display: flex;
+    /* justify-content: start; */
+    align-items: start;
+    position: relative;
+    bottom: 19px;
+}
+
+
+.homePageSlider .movie-rating {
+    display: flex;
+    align-items: center;
+}
+
+.movie-rating .star-icon {
+    scale:0.7;
+    /* fill: white */
+}

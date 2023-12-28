@@ -1,0 +1,118 @@
+#searched-query-page {
+    display: flex;
+    width: 100%;
+}
+
+#searched-query-page .filter-section {
+    width: 243.2px;
+    /* max-width: 20%;
+    min-width: 20%; */
+    border: solid 1px black;
+    max-height: 20em;
+    border-radius: 25px;
+    margin-top: 1em;
+    margin-right: 25px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 2.0em;
+}
+
+#searched-query-page .display-section {
+    width: 80%
+} 
+
+.filter-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.filter-options .filter-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em;
+    width: 100%;
+
+}
+
+.filter-options .filter-row .filter-name {
+    padding-left: 1em;
+}
+
+#searched-query-page .picked-filter {
+    font-weight: bold;
+}
+
+.filter-options .filter-row .filter-total-results {
+    display: flex;
+    justify-content: end;
+    padding-right: 1em;
+}
+
+.filter-options .filter-row:hover {
+    background-color: rgb(216, 212, 212);
+}
+
+
+
+.filter-options .filter-row:hover button {
+    width: 100%;
+    background: transparent;
+}
+
+
+
+#searched-query-page img {
+    max-height: 200px;
+    min-height: 200px;
+    max-width: 140px;
+    min-width: 140px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    object-fit: fill;
+    margin-right: 15px;
+}
+
+#searched-query-page img:hover {
+    border: solid 1px rgb(55, 112, 216);
+}
+
+.display-section .movie-container {
+    display: flex;
+    border: solid 1px black;
+    border-radius: 10px;
+    margin-top: 1em;
+    align-items: center;
+}
+
+.display-section .movie-container .movie-title {
+    font-size: 1.2em;
+}
+
+.display-section .movie-container .movie-info {
+    display: flex;
+    justify-content: start;
+}
+
+.display-section .movie-container .movie-overview {
+    white-space: pre-line;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    margin-top: 1em;
+    margin-right: 1em;
+
+    @supports (-webkit-line-clamp: 3) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: initial;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    };
+
+
+}
