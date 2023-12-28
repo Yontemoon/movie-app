@@ -36,7 +36,7 @@ const MovieDetails = () => {
     const [director, setDirector]= useState <CrewType | null | undefined> (null)
     const [writers, setWriters] = useState<CrewType[] | null>(null)
     const [producers, setProducers] = useState<CrewType[] | null>(null)
-    const [trailer, setTrailer] = useState<MovieVideoType | null | undefined>(null)
+    const [trailer, setTrailer] = useState<MovieVideoType | null>(null)
     const [showRecommendations, setShowRecommendations] = useState<MovieDetailsType[] | null>(null)
     const pageNumber: React.MutableRefObject<number> = useRef(1)
     
@@ -93,7 +93,13 @@ const MovieDetails = () => {
                             <img  className="movie-poster" src={`https://image.tmdb.org/t/p/original${movieDetails.poster_path}`} alt={`${movieDetails.title}`}/>
                         </div>
                         <div>
-                            <button>Watch Trailer</button>
+                            <button
+                                onClick={() => {
+                                    trailer !== null && 
+                                    setOpenModel(true)
+                                    setSelectedImage(trailer)
+                                }}
+                            >Watch Trailer</button>
                         </div>
                         {/* <div>
                             {trailer !== null && trailer !== undefined && <VideoPlayer video={trailer}/>}

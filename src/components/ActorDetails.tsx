@@ -23,25 +23,26 @@ const ActorDetails = () => {
         <div>
         <div className="upper-section">
             <div className="profile-section">
-                <img src={`${imageUrl}${actorDetails.profile_path}`} alt="testing"/>
+                <img className="profile-image"src={`${imageUrl}${actorDetails.profile_path}`} alt="testing"/>
             </div>
             <div className="actor-info-parent">
-                <h1>{actorDetails.name}</h1>
+                <h2>{actorDetails.name}</h2>
                 <div className="actor-info-child">
-                    <div>
-                        <h2>Department</h2>
-                        <h2>Birthday</h2>
-                        <h2>Place of Birth</h2>
+                    <div className="actor-info-headers">
+                        <p>Department</p>
+                        <p>Birthday</p>
+                        <p>Place of Birth</p>
                     </div>
                     <div>
-                        <h2>{actorDetails.known_for_department}</h2>
-                        <h2>{actorDetails.birthday}</h2>
-                        <h2>{actorDetails.place_of_birth}</h2>
+                        <p>{actorDetails.known_for_department}</p>
+                        <p>{actorDetails.birthday}</p>
+                        <p>{actorDetails.place_of_birth}</p>
                     </div>
                 </div>
-                <div>
+                <hr/>
+                <div className="biography-section">
                     <h2>Biography</h2>
-                    <p>{actorDetails.biography}</p>
+                    <p className="biography-paragraph">{actorDetails.biography}</p>
                 </div>
             </div>
         </div>

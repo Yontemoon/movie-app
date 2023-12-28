@@ -2,7 +2,7 @@
     display: flex;
 }
 
-.profile-section {
+.movie-credit-list-section .profile-section {
     display: flex;
     margin: 10px;
     align-items: center;
@@ -11,5 +11,13 @@
 .movie-credit-image {
     max-height: 150px;
     border-radius: 15px;
+}
+
+.biography-paragraph {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 10; /* number of lines to show */
+            line-clamp: 10; 
+    -webkit-box-orient: vertical;
 }
 

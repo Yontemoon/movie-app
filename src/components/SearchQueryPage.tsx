@@ -69,7 +69,7 @@ const SearchQueryPage = () => {
                 {currentFilter === "movies" && (searchedMovies.map((searchedMovie) => (
                     <div className="movie-container" key={searchedMovie.id}>
                         <Link to={`/details/${searchedMovie.id}`}>
-                            <img src={`${imageUrl}${searchedMovie.poster_path}`} alt={searchedMovie.title} onError={handleImageError}/>
+                            <img className="movie-poster"src={`${imageUrl}${searchedMovie.poster_path}`} alt={searchedMovie.title} onError={handleImageError}/>
                         </Link>
                         <div>
                             <Link to={`/details/${searchedMovie.id}`}>

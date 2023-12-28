@@ -32,6 +32,7 @@
     justify-content: space-between;
     padding: 0.5em;
     width: 100%;
+    background-color: transparent;
 
 }
 
@@ -41,6 +42,7 @@
 
 #searched-query-page .picked-filter {
     font-weight: bold;
+    text-decoration: underline;
 }
 
 .filter-options .filter-row .filter-total-results {
@@ -69,8 +71,9 @@
     min-width: 140px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    object-fit: fill;
+    object-fit: cover;
     margin-right: 15px;
+    border: solid 1px transparent;
 }
 
 #searched-query-page img:hover {
@@ -84,6 +87,7 @@
     margin-top: 1em;
     align-items: center;
 }
+
 
 .display-section .movie-container .movie-title {
     font-size: 1.2em;
