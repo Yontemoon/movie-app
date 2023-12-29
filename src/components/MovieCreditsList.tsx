@@ -4,6 +4,7 @@ import imageUrl from "../library/imageUrl";
 import "../styles/movieCreditsList.css"
 // const defautImage = require('../images/default-poster.png')
 import { Link } from "react-router-dom";
+import defaultAvatar from "../images/default-avatar.png"
 
 const MovieCreditsList = () => {
     const credits: MovieCreditsType = useLoaderData() as MovieCreditsType
@@ -11,6 +12,10 @@ const MovieCreditsList = () => {
     const crews = credits.crew
     console.log(crews)
 
+    const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
+        event.currentTarget.src = defaultAvatar 
+    }
+    
     return (
         <div className="movie-credit-list-section">
             <div>
@@ -19,7 +24,7 @@ const MovieCreditsList = () => {
                     <div key={cast.id} className="profile-section">
                         <div>
                             
-                            <Link to={`/actor/${cast.id}`}><img className="movie-credit-image" src={`${imageUrl}${cast.profile_path}`} alt={"defaultimage"}/></Link>
+                            <Link to={`/actor/${cast.id}`}><img className="movie-credit-image" src={`${imageUrl}${cast.profile_path}`} onError={handleImageError} alt={"defaultimage"} /></Link>
                         </div>
                         <div>
                         <Link to={`/actor/${cast.id}`}><h3>{cast.name}</h3></Link>
@@ -28,13 +33,12 @@ const MovieCreditsList = () => {
                     </div>
                 ))}
             </div>
-
             <div>
                 <h2>Crew ({crews.length})</h2>
                 {crews.map((crew) => (
                     <div className="profile-section" key={crew.id}>
                         <div>
-                        <Link to={`/actor/${crew.id}`}><img className="movie-credit-image" src={`${imageUrl}${crew.profile_path}`} alt={"defaultimage"}/></Link>
+                        <Link to={`/actor/${crew.id}`}><img className="movie-credit-image" src={`${imageUrl}${crew.profile_path}`} onError={handleImageError} alt={"defaultimage"}/></Link>
                         </div>
                         <div>
                             <h3>{crew.name}</h3>

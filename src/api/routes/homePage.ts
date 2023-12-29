@@ -50,8 +50,8 @@ export const getPopular = async () => {
     try {
         const response = await fetch(`${url}/movie/popular?language=en-US&page=1&region=us`, options)
         const data = await response.json()
-
-        return data.results
+        const slicedData = data.results.slice(0, 5)
+        return slicedData
     } catch(error) {
         console.error("Error:", error)
         throw error

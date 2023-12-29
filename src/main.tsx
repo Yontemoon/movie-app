@@ -4,6 +4,7 @@ import App from './App.tsx'
 import './index.css'
 import MovieProvider from './providers/MovieProvider.tsx'
 import '@radix-ui/themes/styles.css';
+import Footer from './components/Footer.tsx'
 
 
 
@@ -11,6 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
       <MovieProvider>
         <App />
+        <Footer/>
       </MovieProvider>
   </React.StrictMode>
 )

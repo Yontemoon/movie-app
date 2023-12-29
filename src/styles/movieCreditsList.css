@@ -1,5 +1,6 @@
 .movie-credit-list-section {
     display: flex;
+    justify-content:space-around;
 }
 
 .movie-credit-list-section .profile-section {
@@ -9,8 +10,10 @@
 }
 
 .movie-credit-image {
-    max-height: 150px;
-    border-radius: 15px;
+    height: 100px;
+    width: 100px;
+    border-radius: 25px;
+    object-fit: cover;
 }
 
 .biography-paragraph {

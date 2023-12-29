@@ -19,6 +19,7 @@ type LoaderData = {
 
 const HomePage = () => {
     const {nowPlaying, upComing, topRated, popular}: LoaderData = useLoaderData() as LoaderData
+    console.log(nowPlaying)
     const latestYear = 2023;
     const oldestYear = 1940;
     const navigate = useNavigate()

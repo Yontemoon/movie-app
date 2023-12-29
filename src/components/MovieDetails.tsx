@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 // import { Avatar } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-import VideoPlayer from "./TrailerVideo";
+// import VideoPlayer from "./TrailerVideo";
 import { useLoaderData } from "react-router-dom";
 import "../styles/movieDetails.css"
 import Carousel from "./Carousel";
