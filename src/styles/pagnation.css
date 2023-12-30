@@ -1,0 +1,8 @@
+.pagnation-container {
+    /* display: flex; */
+    
+}
+
+.selected {
+    text-decoration: underline;
+}

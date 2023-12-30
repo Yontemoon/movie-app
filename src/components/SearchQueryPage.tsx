@@ -7,30 +7,45 @@ import "../styles/searchQueryPage.css"
 import defaultImage from "../images/landscape.png"
 import { Link } from 'react-router-dom';
 import formatDate from '../library/formatDate';
-
+import Pagnation from './Pagnation';
 
 type LoaderDataType = {
     searchedMovies: MovieDetailsType[];
     searchedPersons: SearchActortype[];
     movieSearchedTotalResults: number;
-    personSearchedTotalResults: number
+    personSearchedTotalResults: number;
+    searched: string
 }
 
 const SearchQueryPage = () => {
-    const { searchedMovies, searchedPersons, movieSearchedTotalResults, personSearchedTotalResults }: LoaderDataType = useLoaderData() as LoaderDataType
-    console.log("MOVIES:", searchedMovies)
-    console.log("PERSON:", searchedPersons)
+    const { searchedMovies, searchedPersons, movieSearchedTotalResults, personSearchedTotalResults, searched }: LoaderDataType = useLoaderData() as LoaderDataType;
+    // console.log("SEARCHED", searched)
+    // console.log("MOVIES:", searchedMovies)
+    // console.log("MOVIE NUMBER", movieSearchedTotalResults)
+    // console.log("PERSON:", searchedPersons)
     const [currentFilter, setCurrentFilter] = useState("movies")
+    const [currentItems, setCurrentItems] = useState<MovieDetailsType[] | SearchActortype[] | null>(null)
+    const [pageCount, setPageCount] = useState(0);
 
     const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
         event.currentTarget.src = defaultImage; 
     }
 
     const handleFilter = (filterType: string) => {
+        console.log(filterType)
         if (currentFilter === filterType) return;
         const replacedFilter = document.getElementById(currentFilter);
         replacedFilter?.classList.remove("picked-filter")
         setCurrentFilter(filterType)
+
+        if (filterType === "movies") {
+            setCurrentItems(searchedMovies)
+            setPageCount(Math.ceil(movieSearchedTotalResults / 20))
+        } else {
+            setCurrentItems(searchedPersons)
+            setPageCount(Math.ceil(personSearchedTotalResults / 20))
+        }
+
         const currentFilterId = document.getElementById(filterType)
         currentFilterId?.classList.add("picked-filter")
     }
@@ -38,7 +53,10 @@ const SearchQueryPage = () => {
     useEffect(() => {
         const getCurrentFilterId = document.getElementById(currentFilter)
         getCurrentFilterId?.classList.add("picked-filter")
-    })
+        setCurrentItems(searchedMovies);
+        setPageCount(Math.ceil(movieSearchedTotalResults / 20));
+    },[searched])
+
     
     return (
         <div id="searched-query-page">
@@ -66,7 +84,7 @@ const SearchQueryPage = () => {
                 </div>
             </div>
             <div className="display-section">
-                {currentFilter === "movies" && (searchedMovies.map((searchedMovie) => (
+                {currentFilter === "movies" && currentItems !== null && (currentItems.map((searchedMovie) => (
                     <div className="movie-container" key={searchedMovie.id}>
                         <Link to={`/details/${searchedMovie.id}`}>
                             <img className="movie-poster"src={`${imageUrl}${searchedMovie.poster_path}`} alt={searchedMovie.title} onError={handleImageError}/>
@@ -81,13 +99,13 @@ const SearchQueryPage = () => {
                     </div>
                 )))}
 
-                {currentFilter === "people" && (searchedPersons.map((searchedPerson) => (
+                {currentFilter === "people" && currentItems !== null && (currentItems.map((searchedPerson) => (
                     <div className="movie-container" key={searchedPerson.id}>
-                        <Link to={`/details/${searchedPerson.id}`}>
+                        <Link to={`/actor/${searchedPerson.id}`}>
                             <img src={`${imageUrl}${searchedPerson.profile_path}`} alt={searchedPerson.name} onError={handleImageError}/>
                         </Link>
                         <div>
-                            <Link to={`/details/${searchedPerson.id}`}>
+                            <Link to={`/actor/${searchedPerson.id}`}>
                                 <h3 className='movie-info movie-title'>{searchedPerson.name}</h3>
                             </Link>
                             <h4 className='movie-info movie-release'>{formatDate(searchedPerson.known_for_department)}</h4>
@@ -95,6 +113,7 @@ const SearchQueryPage = () => {
                         </div>
                     </div>
                 )))}
+                <Pagnation searched={searched} currentItems={currentItems} pageCount={pageCount} setPageCount={setPageCount} setCurrentItems={setCurrentItems} currentFilter={currentFilter}/>
             </div>
         </div>
     );

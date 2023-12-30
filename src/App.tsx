@@ -131,7 +131,8 @@ function App() {
               searchedMovies: movieSearchedTyped, 
               searchedPersons: personSearchedTyped, 
               movieSearchedTotalResults: movieSearchedTotalResultsTyped,
-              personSearchedTotalResults: personSearchedTotalResultsTyped
+              personSearchedTotalResults: personSearchedTotalResultsTyped,
+              searched
             }
             } else {
               return { searchedMovie: [], searchedPerson: [] };
