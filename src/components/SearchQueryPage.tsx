@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import MovieDetailsType from '../models/MovieDetails.types';
-import SearchActortype from '../models/SearchActor.types';
+import SearchActorType from '../models/SearchActor.types';
 import imageUrl from '../library/imageUrl';
 import "../styles/searchQueryPage.css"
 import defaultImage from "../images/landscape.png"
@@ -11,7 +11,7 @@ import Pagnation from './Pagnation';
 
 type LoaderDataType = {
     searchedMovies: MovieDetailsType[];
-    searchedPersons: SearchActortype[];
+    searchedPersons: SearchActorType[];
     movieSearchedTotalResults: number;
     personSearchedTotalResults: number;
     searched: string
@@ -24,7 +24,7 @@ const SearchQueryPage = () => {
     // console.log("MOVIE NUMBER", movieSearchedTotalResults)
     // console.log("PERSON:", searchedPersons)
     const [currentFilter, setCurrentFilter] = useState("movies")
-    const [currentItems, setCurrentItems] = useState<MovieDetailsType[] | SearchActortype[] | null>(null)
+    const [currentItems, setCurrentItems] = useState<MovieDetailsType[] | SearchActorType[] | null>(null)
     const [pageCount, setPageCount] = useState(0);
 
     const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
@@ -32,7 +32,7 @@ const SearchQueryPage = () => {
     }
 
     const handleFilter = (filterType: string) => {
-        console.log(filterType)
+        // console.log(filterType)
         if (currentFilter === filterType) return;
         const replacedFilter = document.getElementById(currentFilter);
         replacedFilter?.classList.remove("picked-filter")
@@ -51,11 +51,16 @@ const SearchQueryPage = () => {
     }
 
     useEffect(() => {
-        const getCurrentFilterId = document.getElementById(currentFilter)
+
+        console.log(currentFilter)
+        const getActorFilter = document.getElementById("people")
+        getActorFilter?.classList.remove("picked-filter")
+        const getCurrentFilterId = document.getElementById("movies")
         getCurrentFilterId?.classList.add("picked-filter")
-        setCurrentItems(searchedMovies);
-        setPageCount(Math.ceil(movieSearchedTotalResults / 20));
-    },[searched])
+        setCurrentFilter("movies")
+        setCurrentItems(searchedMovies)
+        setPageCount(Math.ceil(movieSearchedTotalResults / 20))
+    },[searched, searchedMovies])
 
     
     return (
@@ -113,7 +118,14 @@ const SearchQueryPage = () => {
                         </div>
                     </div>
                 )))}
-                <Pagnation searched={searched} currentItems={currentItems} pageCount={pageCount} setPageCount={setPageCount} setCurrentItems={setCurrentItems} currentFilter={currentFilter}/>
+                <Pagnation 
+                    searched={searched} 
+                    currentItems={currentItems} 
+                    pageCount={pageCount} 
+                    setPageCount={setPageCount} 
+                    setCurrentItems={setCurrentItems} 
+                    currentFilter={currentFilter}
+                />
             </div>
         </div>
     );

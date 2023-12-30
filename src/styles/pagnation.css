@@ -1,8 +1,39 @@
 .pagnation-container {
-    /* display: flex; */
-    
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
-.selected {
+.react-pagnation {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.react-pagnation li {
+    margin: 0 5px;
+    display: inline-block;
+  }
+  
+.react-pagnation a {
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+
+  .react-pagnation li {
+    cursor: pointer;
+  }
+  .react-paginate a:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+
+.selected a{
+    font-weight: bold;
     text-decoration: underline;
 }

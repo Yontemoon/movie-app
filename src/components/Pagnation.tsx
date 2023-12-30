@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ReactPaginate from "react-paginate";
 // import { Link } from "react-router-dom";
 // import imageUrl from '../library/imageUrl';
@@ -7,15 +7,19 @@ import ReactPaginate from "react-paginate";
 import "../styles/pagnation.css"
 import { getMovieSearch, getPersonSearch } from "../api/routes/searchQuery";
 import MovieDetailsType from '../models/MovieDetails.types';
-import SearchActortype from '../models/SearchActor.types';
+import SearchActorType from '../models/SearchActor.types';
 
 type PagnationType = {
-  currentItems: MovieDetailsType[] | SearchActortype[] | null;
+  currentItems: MovieDetailsType[] | SearchActorType[] | null;
   searched: string;
   pageCount: number;
   setPageCount: React.Dispatch<React.SetStateAction<number>>;
-  setCurrentItems: React.Dispatch<React.SetStateAction<MovieDetailsType[] | SearchActortype[] | null>>;
+  setCurrentItems: React.Dispatch<React.SetStateAction<MovieDetailsType[] | SearchActorType[] | null>>;
   currentFilter: string
+}
+
+type PageChangeEventType = {
+  selected: number;
 }
 
 const Pagnation: React.FC <PagnationType> = ({ currentItems, searched, pageCount, setCurrentItems, currentFilter }) => {
@@ -24,8 +28,8 @@ const Pagnation: React.FC <PagnationType> = ({ currentItems, searched, pageCount
       window.scrollTo(0, 0)
     },[currentItems])
 
-    const handlePageClick = async (event) => {
-        console.log(event.selected)
+    const handlePageClick = async (event: PageChangeEventType) => {
+        // console.log(event.selected)
         if (currentFilter === "movies") {
           const newResults = await getMovieSearch(searched, event.selected + 1)
           setCurrentItems(newResults.results)
@@ -39,12 +43,13 @@ const Pagnation: React.FC <PagnationType> = ({ currentItems, searched, pageCount
         <div className="pagnation-container">
           <ReactPaginate
             breakLabel="..."
-            nextLabel="next >"
+            nextLabel="Next >"
             onPageChange={handlePageClick}
             pageRangeDisplayed={4}
             pageCount={pageCount}
-            previousLabel="< previous"
+            previousLabel="< Previous"
             renderOnZeroPageCount={null}
+            className="react-pagnation"
           />
         </div>
     );
