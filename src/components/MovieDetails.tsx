@@ -1,8 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef,  } from "react";
 // import { Avatar } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useLoaderData, Await } from "react-router-dom";
 // import VideoPlayer from "./TrailerVideo";
-import { useLoaderData } from "react-router-dom";
 import "../styles/movieDetails.css"
 import Carousel from "./Carousel";
 import MovieDetailsType from "../models/MovieDetails.types";
@@ -16,6 +15,8 @@ import WrapMovies from "./WrapMovies";
 import { getMovieRecommendations } from "../api/routes/movieDetails";
 import defaultAvatar from "../images/default-avatar.png";
 import playButton from "../images/play-circle.svg"
+import Spinner from "./Spinner";
+
 
 
 type LoaderDataType = {
@@ -27,9 +28,16 @@ type LoaderDataType = {
     totalMovieRecommendationsPages: number;
 }
 
-const MovieDetails = () => {
+type MovieDetailsProps = {
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    loading: boolean;
+}
+
+const MovieDetails: React.FC<MovieDetailsProps> = ({setLoading, loading}) => {
+    const {id} = useParams();
+    // console.log(id)
     const {movieDetails, movieCredits, movieImages, movieVideos, movieRecommendations, totalMovieRecommendationsPages}: LoaderDataType = useLoaderData() as LoaderDataType
-    console.log("CREDITS", movieCredits.crew)
+    // console.log("CREDITS", movieCredits.crew)
     console.log(movieRecommendations)
     const [openModel, setOpenModel] = useState(false)
     const [selectedImage, setSelectedImage] = useState<ImageType | MovieVideoType | null>(null)
@@ -39,6 +47,14 @@ const MovieDetails = () => {
     const [trailer, setTrailer] = useState<MovieVideoType | null>(null)
     const [showRecommendations, setShowRecommendations] = useState<MovieDetailsType[] | null>(null)
     const pageNumber: React.MutableRefObject<number> = useRef(1)
+
+    useEffect(() => {
+        if (loading === false) {
+            setLoading(true)
+        } else {
+            setLoading(false);
+        }
+    }, [id])
     
     useEffect (() => {
         window.scrollTo(0, 0)
@@ -46,7 +62,6 @@ const MovieDetails = () => {
         const writers = movieCredits.crew.filter((member) => member.department === "Writing")
         const getProducers = movieCredits.crew.filter((member) => member.job === "Producer")
         const findTrailer = movieVideos.find((video) => video.type === "Trailer")
-  
         if(findTrailer !== null && findTrailer !== undefined) {
             setTrailer(findTrailer)
         }
@@ -57,6 +72,7 @@ const MovieDetails = () => {
         setWriters(writers)
         setShowRecommendations(movieRecommendations)
         pageNumber.current = 1
+        // setLoading(false); 
     },[movieCredits.crew, movieVideos, movieRecommendations, pageNumber])
 
     const handleRecommendations = async () => {
@@ -79,130 +95,134 @@ const MovieDetails = () => {
         event.currentTarget.className = "actor-avatar"
     }
 
+    if(loading) {
+        return (
+            <Spinner/>
+        )
+    }
+
     return (
         <div id="movieDetailsPage">
-            <div className="movie-background-container">
-                <img className="movie-background" src={`https://image.tmdb.org/t/p/original${movieDetails.backdrop_path}`} alt={`${movieDetails.title}`}/>
-            </div>
-            <div className="starting-position">
-            </div>
-            <div className="body">
-                <div className="movie-info-container">
-                    <div className="movie-info-left">
-                        <div className="movie-poster-container">
-                            <img  className="movie-poster" src={`https://image.tmdb.org/t/p/original${movieDetails.poster_path}`} alt={`${movieDetails.title}`}/>
-                        </div>
-                        <div>
-                            <button
-                                onClick={() => {
-                                    trailer !== null && 
-                                    setOpenModel(true)
-                                    setSelectedImage(trailer)
-                                }}
-                            >Watch Trailer</button>
-                        </div>
-                        {/* <div>
-                            {trailer !== null && trailer !== undefined && <VideoPlayer video={trailer}/>}
-                        </div> */}
-                    </div>
-                    <div className="movie-info-right">
-
-                        <h1 className="movie-info-title">{movieDetails.title}</h1>
-                        <p className="movie-info-release_date">{movieDetails.release_date}</p>
-                        <p className="movie-info-tagline">{movieDetails.tagline}</p>
-                        {/* <h3>Directed by {director}</h3> */}
-                        <hr/>
-                        <p>{movieDetails.overview}</p>
-                        <hr/>
-                        <div className="castList">
-                            <p>
-                                {director !== null && director !== undefined && <p>Director:&nbsp;<Link to={`/actor/${director.id}`}>{director.name}</Link></p>}
-                            </p>
-                            <p>
-                                <p>Writer(s):&nbsp;</p>
-                                {writers !== null && writers.map((writer) => (
-                                    <p key={writer.id}>
-                                        <Link to={`/actor/${writer.id}`}>{writer.name}</Link>&nbsp;
-                                    </p>
-                                ))}
-                            </p>
-                            <p>
-                                <p>Producer(s):&nbsp;</p>
-                                {producers !== null && producers.map((producer) => (
-                                    <p key={producer.id}>
-                                        <Link to={`/actor/${producer.id}`}>{producer.name}</Link>&nbsp;
-                                    </p>
-                                ))}
-                            </p>
-                        </div>
-                        <hr/>
-                        <p>
-                            <Link to={`/details/${movieDetails.id}/cast`}>
-                                See Full Cast & Crew
-                            </Link>
-                        </p>
-                    </div>
+            <Await resolve={movieDetails && movieCredits && movieImages && movieVideos && movieRecommendations && totalMovieRecommendationsPages}>
+                <div className="movie-background-container">
+                    <img className="movie-background" src={`https://image.tmdb.org/t/p/original${movieDetails.backdrop_path}`} alt={`${movieDetails.title}`}/>
                 </div>
-                    <h1>Top Billed Cast</h1>
-                    <Carousel numberPerSlide={8}>
-                        {movieCredits.cast.map((actor) => (
-                            <div key={actor.id}>
-                                <div>
-                                    <div className="actor-avatar-container"> 
-                                        <img 
-                                            className="actor-avatar"
-                                            src={`https://image.tmdb.org/t/p/original${actor.profile_path}`} 
-                                            onError={handleAvatarError}
-                                            alt={actor.name}
-                                        />
-                                    </div>
-                                    <Link to={`/actor/${actor.id}`}><h3>{actor.name}</h3></Link>
-                                    <h4>{actor.character}</h4>
-                                </div>    
+                <div className="starting-position">
+                </div>
+                <div className="body">
+                    <div className="movie-info-container">
+                        <div className="movie-info-left">
+                            <div className="movie-poster-container">
+                                <img  className="movie-poster" src={`https://image.tmdb.org/t/p/original${movieDetails.poster_path}`} alt={`${movieDetails.title}`}/>
                             </div>
-                        ))}
-                    </Carousel>
-                    <hr/>
-                    <h1>Trailers, Clips & Featurettes</h1>
-                    <Carousel numberPerSlide={4}>
-                        {movieVideos.map((video) => (
-                            <div key={video.id} className="movie-video-container">
-                                <img className="image" src={`http://img.youtube.com/vi/${video.key}/hqdefault.jpg`} alt={`http://img.youtube.com/vi/${video.key}/hqdefault.jpg`}/>
-                                <img 
-                                    className="play-button"
-                                    src={playButton} 
-                                    alt={playButton} 
+                            <div>
+                                <button
                                     onClick={() => {
+                                        trailer !== null && 
                                         setOpenModel(true)
-                                        setSelectedImage(video)
+                                        setSelectedImage(trailer)
                                     }}
-                                />
+                                >Watch Trailer</button>
                             </div>
-                        ))}
-                    </Carousel>
+                        </div>
+                        <div className="movie-info-right">
 
-                    { selectedImage !== null && <ModalImage poster={selectedImage} openModel={openModel} setOpenModel={setOpenModel} />}
-                    <hr/>
-                    <h1>Posters</h1>
-                    <DownloadableImages movieImages={movieImages.posters} setOpenModel={setOpenModel} setSelectedImage={setSelectedImage}/>
-
-                    <hr/>
-                    <h1>Backdrop Images</h1>
-                    <DownloadableImages movieImages={movieImages.backdrops} setOpenModel={setOpenModel} setSelectedImage={setSelectedImage}/>
-
-                    
-                    {showRecommendations === null || showRecommendations.length === 0 ? null : (
-                        <>  
+                            <h1 className="movie-info-title">{movieDetails.title}</h1>
+                            <p className="movie-info-release_date">{movieDetails.release_date}</p>
+                            <p className="movie-info-tagline">{movieDetails.tagline}</p>
+                            {/* <h3>Directed by {director}</h3> */}
                             <hr/>
-                            <h1>Recommendations</h1>
-                            <WrapMovies movies={showRecommendations}/>
-                            {pageNumber.current !== totalMovieRecommendationsPages && (<button onClick={handleRecommendations}>See More...</button>)}
+                            <p>{movieDetails.overview}</p>
+                            <hr/>
+                            <div className="castList">
+                                <p>
+                                    {director !== null && director !== undefined && <p>Director:&nbsp;<Link to={`/actor/${director.id}`}>{director.name}</Link></p>}
+                                </p>
+                                <p>
+                                    <p>Writer(s):&nbsp;</p>
+                                    {writers !== null && writers.map((writer) => (
+                                        <p key={writer.id}>
+                                            <Link to={`/actor/${writer.id}`}>{writer.name}</Link>&nbsp;
+                                        </p>
+                                    ))}
+                                </p>
+                                <p>
+                                    <p>Producer(s):&nbsp;</p>
+                                    {producers !== null && producers.map((producer) => (
+                                        <p key={producer.id}>
+                                            <Link to={`/actor/${producer.id}`}>{producer.name}</Link>&nbsp;
+                                        </p>
+                                    ))}
+                                </p>
+                            </div>
+                            <hr/>
+                            <p>
+                                <Link to={`/details/${movieDetails.id}/cast`}>
+                                    See Full Cast & Crew
+                                </Link>
+                            </p>
+                        </div>
+                    </div>
+                        <h1>Top Billed Cast</h1>
+                        <Carousel numberPerSlide={8}>
+                            {movieCredits.cast.map((actor) => (
+                                <div key={actor.id}>
+                                    <div>
+                                        <div className="actor-avatar-container"> 
+                                            <img 
+                                                className="actor-avatar"
+                                                src={`https://image.tmdb.org/t/p/original${actor.profile_path}`} 
+                                                onError={handleAvatarError}
+                                                alt={actor.name}
+                                            />
+                                        </div>
+                                        <Link to={`/actor/${actor.id}`}><h3>{actor.name}</h3></Link>
+                                        <h4>{actor.character}</h4>
+                                    </div>    
+                                </div>
+                            ))}
+                        </Carousel>
+                        <hr/>
+                        <h1>Trailers, Clips & Featurettes</h1>
+                        <Carousel numberPerSlide={4}>
+                            {movieVideos.map((video) => (
+                                <div key={video.id} className="movie-video-container">
+                                    <img className="image" src={`http://img.youtube.com/vi/${video.key}/hqdefault.jpg`} alt={`http://img.youtube.com/vi/${video.key}/hqdefault.jpg`}/>
+                                    <img 
+                                        className="play-button"
+                                        src={playButton} 
+                                        alt={playButton} 
+                                        onClick={() => {
+                                            setOpenModel(true)
+                                            setSelectedImage(video)
+                                        }}
+                                    />
+                                </div>
+                            ))}
+                        </Carousel>
 
-                        </>
-                    )}
-                </div>
+                        { selectedImage !== null && <ModalImage poster={selectedImage} openModel={openModel} setOpenModel={setOpenModel} />}
+                        <hr/>
+                        <h1>Posters</h1>
+                        <DownloadableImages movieImages={movieImages.posters} setOpenModel={setOpenModel} setSelectedImage={setSelectedImage}/>
+
+                        <hr/>
+                        <h1>Backdrop Images</h1>
+                        <DownloadableImages movieImages={movieImages.backdrops} setOpenModel={setOpenModel} setSelectedImage={setSelectedImage}/>
+
+                        
+                        {showRecommendations === null || showRecommendations.length === 0 ? null : (
+                            <>  
+                                <hr/>
+                                <h1>Recommendations</h1>
+                                <WrapMovies movies={showRecommendations}/>
+                                {pageNumber.current !== totalMovieRecommendationsPages && (<button onClick={handleRecommendations}>See More...</button>)}
+
+                            </>
+                        )}
+                    </div>
+                </Await>
             </div>
-        // </div>
     );
 };
 

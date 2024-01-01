@@ -1,11 +1,22 @@
-// import { Spinner } from "@chakra-ui/react";
+import { ClipLoader } from "react-spinners";
+import "../styles/spinner.css"
 
-// const SpinnerComponent = () => {
-//     return (
-//         <Spinner
-            
-//         />
-//     );
-// };
+type SpinnerProps = {
+    isLoading?: boolean;
+}
 
-// export default SpinnerComponent;
+const Spinner = ({isLoading = true}: SpinnerProps) => {
+    return (
+        <div id="loading-spinner">
+            <ClipLoader
+                color="#C6878F"
+                loading={isLoading}
+                size={35}
+                aria-label="Loading Spinner"
+                data-testid="loader"
+            />
+        </div>
+    );
+};
+
+export default Spinner;

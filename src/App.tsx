@@ -1,5 +1,5 @@
-
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { useState, Suspense } from 'react'
+import { createBrowserRouter, RouterProvider, defer } from 'react-router-dom'
 import './App.css'
 // import ListByYears from './components/ListByYears'
 import Layout from './components/Layout'
@@ -20,9 +20,13 @@ import ActorDetailsTypes from './models/ActorDetails.types'
 import SearchQueryPage from './components/SearchQueryPage'
 import { getMovieSearch, getPersonSearch } from './api/routes/searchQuery'
 import SearchActortype from './models/SearchActor.types'
+import Spinner from './components/Spinner'
 
 
 function App() {
+
+  const [loading, setLoading] = useState(true);
+
   const router = createBrowserRouter([
     {
       element: <Layout/>,
@@ -30,61 +34,66 @@ function App() {
         {
           path: "/",
           loader: async () => {
-            const [nowPlaying, upComing, topRated, popular] = await Promise.all([
-              getNowPlaying(),
-              getUpComing(),
-              getTopRated(),
-              getPopular()
-            ])
+            try {
+              const [nowPlaying, upComing, topRated, popular] = await Promise.all([
+                getNowPlaying(),
+                getUpComing(),
+                getTopRated(),
+                getPopular()
+              ]);
 
-            const nowPlayingTyped: HomePageSliderType[] = nowPlaying;
-            const upComingTyped: HomePageSliderType[] = upComing;
-            const topRatedTyped: HomePageSliderType[] = topRated;
-            const popularTyped: HomePageSliderType[] = popular
+              const nowPlayingTyped: HomePageSliderType[] = nowPlaying;
+              const upComingTyped: HomePageSliderType[] = upComing;
+              const topRatedTyped: HomePageSliderType[] = topRated;
+              const popularTyped: HomePageSliderType[] = popular;
 
-            return { nowPlaying: nowPlayingTyped, upComing: upComingTyped, topRated: topRatedTyped, popular: popularTyped };
+              return { nowPlaying: nowPlayingTyped, upComing: upComingTyped, topRated: topRatedTyped, popular: popularTyped };
+
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            } finally {
+              setLoading(false);
+            }
           },
 
           element:<HomePage/>
         },
-        // {
-        //   path:"/year/:id",
-        //   loader: async ({params}) => {
-        //     const id = Number(params.id)
-        //     const results = await getMovieByYear(1, id)
-        //     return results
-        //   }, 
-        //   element: <ListByYears/>
-        // },
         {
           path:"/details/:id",
           loader: async ({params}) => {
-            const id = Number(params.id)
-            const [movieDetails, movieCredits, movieImages, movieVideos, movieRecommendations] = await Promise.all([
-              getMovieDetails(id),
-              getMovieCredits(id),
-              getMovieImages(id),
-              getMovieVideos(id),
-              getMovieRecommendations(id, 1)
-            ])
-
-            const movieDetailsTyped: MovieDetailsType = movieDetails
-            const movieCreditsTyped: MovieCreditsType = movieCredits
-            const movieImagesTyped: MovieImagesType = movieImages
-            const movieVideosTyped: MovieVideoTypes = movieVideos
-            const movieRecommendationsTyped: MovieDetailsType[] = movieRecommendations.results
-            const totalMovieRecommendationsPagesTyped: number = movieRecommendations.total_pages
-
-            return {
-              movieDetails: movieDetailsTyped, 
-              movieCredits: movieCreditsTyped, 
-              movieImages: movieImagesTyped, 
-              movieVideos: movieVideosTyped,
-              movieRecommendations: movieRecommendationsTyped,
-              totalMovieRecommendationsPages: totalMovieRecommendationsPagesTyped
+            try {
+              const id = Number(params.id)
+              const [movieDetails, movieCredits, movieImages, movieVideos, movieRecommendations] = await Promise.all([
+                getMovieDetails(id),
+                getMovieCredits(id),
+                getMovieImages(id),
+                getMovieVideos(id),
+                getMovieRecommendations(id, 1)
+              ])
+  
+              const movieDetailsTyped: MovieDetailsType = movieDetails
+              const movieCreditsTyped: MovieCreditsType = movieCredits
+              const movieImagesTyped: MovieImagesType = movieImages
+              const movieVideosTyped: MovieVideoTypes = movieVideos
+              const movieRecommendationsTyped: MovieDetailsType[] = movieRecommendations.results
+              const totalMovieRecommendationsPagesTyped: number = movieRecommendations.total_pages
+  
+              return defer({
+                movieDetails: movieDetailsTyped, 
+                movieCredits: movieCreditsTyped, 
+                movieImages: movieImagesTyped, 
+                movieVideos: movieVideosTyped,
+                movieRecommendations: movieRecommendationsTyped,
+                totalMovieRecommendationsPages: totalMovieRecommendationsPagesTyped
+              })
+            } catch (error) {
+              console.error("Error fetching data:", error);
+            } finally {
+              setLoading(false);
             }
+
           },
-          element: <MovieDetails/>
+          element: <MovieDetails setLoading={setLoading} loading={loading}/>
         },
         {
           path:"/details/:id/cast",
@@ -148,9 +157,9 @@ function App() {
 
   return (
     <div id="main-container">
-      <RouterProvider 
-        router={router} 
-      />
+      <Suspense fallback={<Spinner/>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </div>
   )
 }

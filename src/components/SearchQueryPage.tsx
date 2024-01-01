@@ -8,6 +8,7 @@ import defaultImage from "../images/landscape.png"
 import { Link } from 'react-router-dom';
 import formatDate from '../library/formatDate';
 import Pagnation from './Pagnation';
+import Spinner from './Spinner';
 
 type LoaderDataType = {
     searchedMovies: MovieDetailsType[];
@@ -89,6 +90,8 @@ const SearchQueryPage = () => {
                 </div>
             </div>
             <div className="display-section">
+                {/* check unique  
+                    split state into two sections.*/}
                 {currentFilter === "movies" && currentItems !== null && (currentItems.map((searchedMovie) => (
                     <div className="movie-container" key={searchedMovie.id}>
                         <Link to={`/details/${searchedMovie.id}`}>
