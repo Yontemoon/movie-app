@@ -21,6 +21,8 @@ import SearchQueryPage from './components/SearchQueryPage'
 import { getMovieSearch, getPersonSearch } from './api/routes/searchQuery'
 import SearchActortype from './models/SearchActor.types'
 import Spinner from './components/Spinner'
+import LoginPage from './components/LoginPage'
+import LoginApproved from './components/LoginApproved'
 
 
 function App() {
@@ -57,6 +59,14 @@ function App() {
           },
 
           element:<HomePage/>
+        },
+        {
+          path:"/login",
+          element: <LoginPage/>
+        },
+        {
+          path:"/approved",
+          element: <LoginApproved/>
         },
         {
           path:"/details/:id",

@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef,  } from "react";
-// import { Avatar } from "@chakra-ui/react";
 import { Link, useParams, useLoaderData, Await } from "react-router-dom";
 // import VideoPlayer from "./TrailerVideo";
 import "../styles/movieDetails.css"
@@ -95,7 +94,7 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({setLoading, loading}) => {
         event.currentTarget.className = "actor-avatar"
     }
 
-    if(loading) {
+    if (loading) {
         return (
             <Spinner/>
         )

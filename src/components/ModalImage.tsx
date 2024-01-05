@@ -7,6 +7,7 @@ import { ImageType } from "../models/MovieImages.types";
 import VideoPlayer from "./TrailerVideo";
 import closeButton from "../images/x.svg";
 import downloadIcon from "../images/download.svg"
+import DialogModal from "./DialogModal";
 
 
 type ModelImage = {
@@ -59,33 +60,19 @@ const ModalImage: React.FC<ModelImage> = ({setOpenModel, openModel, poster}) => 
       }
 
     return (
-        <Transition
-            show={openModel}
-            enter="transition duration-100 ease-out"
-            enterFrom="transform scale-95 opacity-0"
-            enterTo="transform scale-100 opacity-100"
-            leave="transition duration-75 ease-out"
-            leaveFrom="transform scale-100 opacity-100"
-            leaveTo="transform scale-95 opacity-0"
-            as={Fragment}
-        >
-            <Dialog className="dialog" open={openModel} onClose={() => {}}>
-                <div className="backdrop"/>
-                    <div className="image-container">
-                        <img 
-                            className="close-button" 
-                            src={closeButton} 
-                            alt="close"
-                            onClick={() => setOpenModel(false)}
-                        />
-                        <div className="image-section">
-                            {isImageType (poster) ? <img className="image-poster" src={`https://image.tmdb.org/t/p/original${poster.file_path}`} alt="poster"/> : <VideoPlayer video={poster}/>}
-                            {isImageType (poster) && <img className="download-button" src={downloadIcon} alt="download" onClick={downloadFile}/>}
-                        </div>
-                    </div>
+        <DialogModal open={openModel}>
+            <img 
+                className="close-button" 
+                src={closeButton} 
+                alt="close"
+                onClick={() => setOpenModel(false)}
+            />
+            <div className="image-section">
+                {isImageType (poster) ? <img className="image-poster" src={`https://image.tmdb.org/t/p/original${poster.file_path}`} alt="poster"/> : <VideoPlayer video={poster}/>}
+                {isImageType (poster) && <img className="download-button" src={downloadIcon} alt="download" onClick={downloadFile}/>}
+            </div>
 
-            </Dialog>
-        </Transition>
+        </DialogModal>
     );
 };
 

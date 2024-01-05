@@ -1,0 +1,11 @@
+#idle-prompt-container {
+    background-color: black;
+    padding: 1rem;
+    border-radius: 25px;
+
+}
+
+#idle-prompt-container .button-row {
+    display: flex;
+    justify-content: space-around;
+}
