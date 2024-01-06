@@ -5,7 +5,7 @@ import { useState, FormEvent, useContext } from "react";
 import "../styles/navbar.css"
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../providers/AuthProvider";
-
+import AccountDropDownMenu from "./AccountDropDownMenu";
 
 const Navbar = () => {
     const navigate = useNavigate()
@@ -20,11 +20,6 @@ const Navbar = () => {
 
         setSearchQuery("")
         
-    }
-
-    const handleLogout = () => {
-        setUser(null)
-        window.localStorage.removeItem("localAccount")
     }
 
     return (
@@ -44,12 +39,8 @@ const Navbar = () => {
                         <img src={searchIcon} className="search-icon"/>
                     </button>
                 </form>
-                
-                    {user && <p>{user.username}</p> }
                     {user ? 
-                        <button onClick={handleLogout}>
-                            Logout
-                        </button> : 
+                        <AccountDropDownMenu/> :
                         <Link to="/login">
                             <p>Login</p>
                         </Link>}

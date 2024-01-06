@@ -13,6 +13,7 @@ import MovieDetailsType from './models/MovieDetails.types'
 import MovieCreditsType from './models/MovieCredits.types'
 import MovieImagesType from './models/MovieImages.types'
 import MovieVideoTypes from './models/MovieVideos.types'
+import WatchlistType from './models/Watchlist.types'
 import MovieCreditsList from './components/MovieCreditsList'
 import ActorDetails from './components/ActorDetails'
 import ActorMovieCreditsTypes from './models/ActorMovieCredits.types'
@@ -23,11 +24,17 @@ import SearchActortype from './models/SearchActor.types'
 import Spinner from './components/Spinner'
 import LoginPage from './components/LoginPage'
 import LoginApproved from './components/LoginApproved'
+import WatchlistPage from './components/WatchlistPage'
+import FavoritesPage from './components/FavoritesPage'
+import { getWatchlist } from './api/routes/watchlistDetails'
+import { useContext } from 'react'
+import { UserContext } from './providers/AuthProvider'
 
 
 function App() {
 
   const [loading, setLoading] = useState(true);
+  const {accessTokenData, user} = useContext(UserContext)
 
   const router = createBrowserRouter([
     {
@@ -159,6 +166,20 @@ function App() {
             
           },
           element: <SearchQueryPage/>
+        }, 
+        {
+          path:"/watchlist",
+          loader: async () => {
+            if (accessTokenData && user) {
+              const watchlist: WatchlistType = await getWatchlist(accessTokenData.access_token, user.id, 1)
+              return watchlist
+            } 
+          },
+          element:<WatchlistPage/>
+        },
+        {
+          path:"/favorite",
+          element:<FavoritesPage/>
         }
 
       ]

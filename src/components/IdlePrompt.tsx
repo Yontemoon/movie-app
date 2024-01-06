@@ -6,8 +6,8 @@ import "../styles/idlePrompt.css"
 
 // 600_000, 60_000
 const IdlePrompt = () => {
-    const timeout = 150_000;
-    const promptBeforeIdle = 120_000;
+    const timeout = 600_000;
+    const promptBeforeIdle = 60_000;
     
     const {setUser, setAccessTokenData } = useContext(UserContext)
     const [remaining, setRemaining] = useState(timeout)

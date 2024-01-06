@@ -73,3 +73,8 @@ p {
   display: flex;
   text-align: left;
 }
+
+.display-row {
+  display: flex;
+  flex-direction: row;
+}

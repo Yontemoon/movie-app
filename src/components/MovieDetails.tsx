@@ -15,6 +15,10 @@ import { getMovieRecommendations } from "../api/routes/movieDetails";
 import defaultAvatar from "../images/default-avatar.png";
 import playButton from "../images/play-circle.svg"
 import Spinner from "./Spinner";
+import star from "../images/star-full.svg"
+import watchlistAdd from "../images/bookmark-plus-f.svg"
+import watchlistRemove from "../images/bookmark-minus.svg"
+import watchlistFull from "../images/bookmark-full.svg"
 
 
 
@@ -34,10 +38,9 @@ type MovieDetailsProps = {
 
 const MovieDetails: React.FC<MovieDetailsProps> = ({setLoading, loading}) => {
     const {id} = useParams();
-    // console.log(id)
+
     const {movieDetails, movieCredits, movieImages, movieVideos, movieRecommendations, totalMovieRecommendationsPages}: LoaderDataType = useLoaderData() as LoaderDataType
-    // console.log("CREDITS", movieCredits.crew)
-    console.log(movieRecommendations)
+    console.log(movieDetails)
     const [openModel, setOpenModel] = useState(false)
     const [selectedImage, setSelectedImage] = useState<ImageType | MovieVideoType | null>(null)
     const [director, setDirector]= useState <CrewType | null | undefined> (null)
@@ -112,7 +115,8 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({setLoading, loading}) => {
                     <div className="movie-info-container">
                         <div className="movie-info-left">
                             <div className="movie-poster-container">
-                                <img  className="movie-poster" src={`https://image.tmdb.org/t/p/original${movieDetails.poster_path}`} alt={`${movieDetails.title}`}/>
+                                <img className="movie-poster" src={`https://image.tmdb.org/t/p/original${movieDetails.poster_path}`} alt={`${movieDetails.title}`}/>
+                                <img className="watchlist" src={watchlistAdd} alt="watchlistAdd"/>
                             </div>
                             <div>
                                 <button
@@ -125,8 +129,14 @@ const MovieDetails: React.FC<MovieDetailsProps> = ({setLoading, loading}) => {
                             </div>
                         </div>
                         <div className="movie-info-right">
-
-                            <h1 className="movie-info-title">{movieDetails.title}</h1>
+                            <div className="display-row movie-info-title-section">
+                                <h1 className="movie-info-title">{movieDetails.title}</h1>
+                                <div className="display-row">
+                                    <h2>{Math.round(movieDetails.vote_average * 100) / 100}</h2>
+                                    <img src={star} alt="star"/>
+                                </div>
+                                
+                            </div>
                             <p className="movie-info-release_date">{movieDetails.release_date}</p>
                             <p className="movie-info-tagline">{movieDetails.tagline}</p>
                             {/* <h3>Directed by {director}</h3> */}

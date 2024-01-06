@@ -19,6 +19,7 @@ const LoginApproved = () => {
       console.log(accessTokenResponse)
       const accountInformation = await getAccountInfo(accessTokenResponse.account_id, accessTokenResponse.access_token)
       setUser(accountInformation)
+      window.localStorage.setItem("localAccessTokenData", JSON.stringify(accessTokenResponse))
       window.localStorage.setItem("localAccount", JSON.stringify(accountInformation))
       console.log("ACCESS TOKEN RESPONSE:", accessTokenResponse)
       console.log("ACCOUNT INFO:", accountInformation)

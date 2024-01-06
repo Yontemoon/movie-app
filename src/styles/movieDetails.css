@@ -52,7 +52,18 @@
     display: flex;
     flex-direction: column;
     align-items: start;
+    
 }
+
+.movie-info-right .movie-info-title-section {
+    justify-content: space-between;
+    text-align: left;
+    width: 40vw;
+    align-items: center;
+    z-index: 5;
+}
+
+
 
 #movieDetailsPage .castList p {
     margin-top: 10px;
@@ -66,8 +77,20 @@
     object-fit:cover;
     height: auto;
 }
+#movieDetailsPage .movie-info-left .movie-poster-container {
+    position: relative;
+}
+#movieDetailsPage .movie-info-left .movie-poster-container .watchlist {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    z-index: 50px;
+}
+#movieDetailsPage .movie-info-left .movie-poster-container .watchlist:hover {
+    cursor: pointer;
+}
 
-#movieDetailsPage .movie-info-left .movie-poster {
+#movieDetailsPage .movie-info-left .movie-poster-container .movie-poster {
     width: 25em;
     height: auto;
     border-radius: 25px;

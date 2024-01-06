@@ -36,7 +36,7 @@ const Pagnation: React.FC <PagnationType> = ({ currentItems, searched, pageCount
         } else {
           const newResults = await getPersonSearch(searched, event.selected + 1)
           setCurrentItems(newResults.results)
-        }
+        } 
       };
 
     return (

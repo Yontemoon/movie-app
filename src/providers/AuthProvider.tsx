@@ -10,7 +10,7 @@ import IdlePrompt from "../components/IdlePrompt";
 // }
 type AccessTokenDataType = {
     access_token: string; 
-    account_id: string;
+    account_id: number;
     status_code: number;
     status_message: string;
     success: boolean;
@@ -23,8 +23,6 @@ type UserContextType = {
     setToken: React.Dispatch<React.SetStateAction<string | null>>
     accessTokenData: AccessTokenDataType | null;
     setAccessTokenData: React.Dispatch<React.SetStateAction<AccessTokenDataType | null>>
-
-
 }
 
 type AuthProviderProps = {
@@ -44,6 +42,12 @@ const AuthProvider = ({children}: AuthProviderProps) => {
         if (loggedUserJSON) {
             const parseUser = JSON.parse(loggedUserJSON);
             console.log(parseUser);
+            const localAccessTokenData = window.localStorage.getItem("localAccessTokenData")
+            if (localAccessTokenData) {
+                const parseTokenData = JSON.parse(localAccessTokenData)
+                console.log("LOCALACCESSTOKEN", parseTokenData)
+                setAccessTokenData(parseTokenData)
+            }
             setUser(parseUser);
         }
 
